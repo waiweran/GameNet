@@ -8,7 +8,7 @@ from tensorflow import keras
 import numpy as np
 import json
 
-def load_model()
+def load_model():
 	model = keras.models.load_model('checkpoints/gain.h5')
 	return model
 
