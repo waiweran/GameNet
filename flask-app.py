@@ -12,7 +12,9 @@ def main_page():
 def predict_page():
     if request.is_json():
         output = model.run_game(str(request.get_json()))
-        return render_template('predict.html', output)
+        return render_template('predict.html', output=output)
 
     return redirect('/')
 
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
