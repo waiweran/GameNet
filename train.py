@@ -29,7 +29,7 @@ def readFiles(files, directory):
 			playTarget.extend(data['playTarget'])
 			gainData.extend(data['gainData'])
 			gainTarget.extend(data['gainTarget'])
-		if len(gainTarget) > 100000:
+		if len(gainTarget) > 10000:
 			break
 
 	return np.array(playData), np.array(playTarget), np.array(gainData), np.array(gainTarget)
@@ -67,3 +67,5 @@ print("Training")
 checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain.h5", save_weights_only=False, period=5)
 model.fit(gain_train_data, gain_train_target, epochs=epochs,
 	      validation_data=(gain_test_data, gain_test_target), callbacks=[checkpoint])
+
+model.summary()
