@@ -14,7 +14,7 @@ class GainModel:
 		self.model = keras.models.load_model('checkpoints/gain.h5')
 
 	def run_game(self, input):
-		indict = json.loads(instring)
+		indict = json.loads(input)
 		netin = (np.expand_dims(indict['GainChoice'], 0))
 		output = self.model.predict(netin)
 		output = output.tolist()[0]
