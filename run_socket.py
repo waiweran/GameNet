@@ -19,10 +19,10 @@ try:
 	# Accept connections and run moves
 	while True:
 		conn, addr = s.accept()	 
-		instring = connection.recv(2048).decode()
+		instring = conn.recv(2048).decode()
 		if instring.startswith('{'):
 			output = model.run_game(instring)
-			connection.send((output + '\n').encode())
+			conn.send((output + '\n').encode())
 		conn.close()
 
 finally: 
