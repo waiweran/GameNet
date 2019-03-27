@@ -27,7 +27,7 @@ if __name__ == '__main__':
 	gain.model.summary()
 	while True:
 		instring = input()
-		print(run_game(instring))
+		print(gain.run_game(instring))
 
 
 
