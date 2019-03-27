@@ -68,4 +68,5 @@ checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain.h5", save_weig
 model.fit(gain_train_data, gain_train_target, epochs=epochs,
 	      validation_data=(gain_test_data, gain_test_target), callbacks=[checkpoint])
 
+print(model.input_shape)
 model.summary()
