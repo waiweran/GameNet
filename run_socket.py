@@ -10,14 +10,14 @@ def run_game(model, connection):
 		if instring.startswith('{'):
 			print("Received " + str(total))
 			total += 1
-			output = gain.run_game(model, instring)
-			connection.send(output + '\n').encode()
+			output = model.run_game(instring)
+			connection.send((output + '\n').encode())
 
 
 try:
 
 	# Initialize Network
-	model = gain.load_model()
+	model = gain.GainModel()
 
 	# Create a socket 
 	s = socket.socket()		 
@@ -30,7 +30,6 @@ try:
 	while True:
 		conn, addr = s.accept()	 
 		print('Got connection from {addr}'.format(addr=addr))
-		_thread.start_new_thread(run_game, (model, conn))
-
+		run_game(model, conn)
 finally: 
 	s.close()
