@@ -16,6 +16,7 @@ class GainModel:
 	def run_game(self, input):
 		indict = json.loads(input)
 		netin = (np.expand_dims(indict['GainChoice'], 0))
+		self.model.make_predict_function()
 		output = self.model.predict(netin)
 		output = output.tolist()[0]
 		return json.dumps(output)
