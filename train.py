@@ -16,7 +16,7 @@ epochs = 10
 data_path = "Training"
 
 # Reads and combines a set of data files
-def readFiles(files, directory):
+def readFiles(files, directory, max_size=0):
 	playData = list()
 	playTarget = list()
 	gainData = list()
@@ -29,7 +29,7 @@ def readFiles(files, directory):
 			playTarget.extend(data['playTarget'])
 			gainData.extend(data['gainData'])
 			gainTarget.extend(data['gainTarget'])
-		if len(gainTarget) > 10000:
+		if max_size > 0 and len(gainTarget) > max_size:
 			break
 
 	return np.array(playData), np.array(playTarget), np.array(gainData), np.array(gainTarget)
@@ -44,8 +44,8 @@ for file in files:
 print("Loading Files")
 train_files = datafiles[0:int(len(datafiles)*test_fraction)]
 test_files = datafiles[int(len(datafiles)*test_fraction):]
-play_train_data,play_train_target,gain_train_data,gain_train_target = readFiles(train_files, data_path)
-play_test_data,play_test_target,gain_test_data,gain_test_target = readFiles(test_files, data_path)
+play_train_data,play_train_target,gain_train_data,gain_train_target = readFiles(train_files, data_path, max_size=100000)
+play_test_data,play_test_target,gain_test_data,gain_test_target = readFiles(test_files, data_path, max_size=1000)
 
 # Scale Inputs
 print("Scaling Inputs")
