@@ -11,6 +11,7 @@ def main_page():
 def predict_page():
     if 'datain' in request.args:
         instring = request.args['datain']
+        print(instring)
         if instring.startswith('{'):
             model = gain.GainModel()
             output = model.run_game(instring)
