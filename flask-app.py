@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, request
 import gain
 
 app = Flask(__name__)
-model = gain.GainModel()
 
 @app.route('/')
 def main_page():
@@ -10,8 +9,9 @@ def main_page():
 
 @app.route('/predict/', methods=['GET', 'POST'])
 def predict_page():
-    instring = request.form['input']
+    instring = request.args['datain']
     if instring.startswith('{'):
+        model = gain.GainModel()
         output = model.run_game(instring)
         return render_template('predict.html', output=output)
     return render_template('predict.html', output="Incorrect Input")
