@@ -3,27 +3,22 @@ from __future__ import absolute_import, division, print_function
 # TensorFlow and tf.keras
 import tensorflow as tf
 from tensorflow import keras
-from keras import backend as K
 
 # Helper libraries
 import numpy as np
 import json
-import os
 
-
-if K.backend() != 'theano':
-    os.environ['KERAS_BACKEND'] = 'theano'
-    reload(K)
 
 class GainModel:
 
 	def __init__(self):
 		self.model = keras.models.load_model('checkpoints/gain.h5')
+		self.model._make_predict_function()
+
 
 	def run_game(self, input):
 		indict = json.loads(input)
 		netin = (np.expand_dims(indict['GainChoice'], 0))
-		self.model.make_predict_function()
 		output = self.model.predict(netin)
 		output = output.tolist()[0]
 		return json.dumps(output)
