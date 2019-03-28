@@ -9,11 +9,12 @@ def main_page():
 
 @app.route('/predict/', methods=['GET', 'POST'])
 def predict_page():
-    instring = request.args['datain']
-    if instring.startswith('{'):
-        model = gain.GainModel()
-        output = model.run_game(instring)
-        return render_template('predict.html', output=output)
+    if 'datain' in request.args:
+        instring = request.args['datain']
+        if instring.startswith('{'):
+            model = gain.GainModel()
+            output = model.run_game(instring)
+            return render_template('predict.html', output=output)
     return render_template('predict.html', output="Incorrect Input")
 
 
