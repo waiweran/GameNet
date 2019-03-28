@@ -3,10 +3,17 @@ from __future__ import absolute_import, division, print_function
 # TensorFlow and tf.keras
 import tensorflow as tf
 from tensorflow import keras
+from keras import backend as K
 
 # Helper libraries
 import numpy as np
 import json
+import os
+
+
+if K.backend() != 'theano':
+    os.environ['KERAS_BACKEND'] = 'theano'
+    reload(K)
 
 class GainModel:
 
