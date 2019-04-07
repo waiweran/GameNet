@@ -23,7 +23,7 @@ class GainDQN:
         self.gamma = 0.95    # discount rate
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
-        self.epsilon_decay = 0.995
+        self.epsilon_decay = 0.9995
         self.learning_rate = 0.001
         self.model = self._build_model()
 
@@ -78,12 +78,12 @@ if __name__ == "__main__":
         state = np.expand_dims(state, 0)
         while True:
             prediction = agent.predict(state)
-            next_state, reward, done, action = env.step(prediction[0,:])
+            next_state, reward, done, action, score = env.step(prediction[0,:])
             next_state = np.expand_dims(next_state, 0)
             agent.remember(state, action, reward, next_state, done)
             state = next_state
             if done:
-                print("episode: {}/{}, score: {}, e: {:.2}".format(e, EPISODES, 0, agent.epsilon))
+                print("episode: {}/{}, score: {}, e: {:.2}".format(e, EPISODES, score, agent.epsilon))
                 break
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)

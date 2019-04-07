@@ -25,8 +25,7 @@ class Dominion:
             self.conn.close()
 
         # Start simulator
-        self.sim = subprocess.Popen(['java', '-jar', 'Simulator.jar', '1', 'Socket', self.opponent])
-        print("Waiting for subrpocess")
+        self.sim = subprocess.Popen(['java', '-jar', 'Simulator.jar', '1', 'Socket', self.opponent], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
         # Connect to game
         self.conn, _ = self.soc.accept()
@@ -41,7 +40,7 @@ class Dominion:
         while not instring.startswith('{'):
             instring = self.conn.recv(2048).decode()
         indict = json.loads(instring)
-        return indict['GainChoice'], 0, indict['Done'], indict['Action']
+        return indict['GainChoice'], indict['Reward'], indict['Done'], indict['Action'], indict['Score']
 
     def close(self):
         if self.sim and not self.sim.poll():
