@@ -14,7 +14,6 @@ def main_page():
 def predict_page():
     if 'datain' in request.args:
         instring = request.args['datain']
-        print(instring)
         if instring.startswith('{'):
             output = model.run_game(instring)
             return render_template('predict.html', output=output)
