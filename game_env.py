@@ -13,7 +13,6 @@ class Dominion:
         self.soc = socket.socket()      
         port = 12345                
         self.soc.bind(('', port))       
-        self.soc.settimeout(1.)
         self.soc.listen(5)
 
 
@@ -40,9 +39,10 @@ class Dominion:
         instring = ""
         while not instring.startswith('{'):
             try:
+                self.conn.settimeout(1)
                 instring = self.conn.recv(2048).decode()
             except socket.timeout:
-                self.conn.send('{"Resend": true}'.encode())
+                self.conn.send('{"Resend": true}\n'.encode())
         indict = json.loads(instring)
         return indict['GainChoice'], indict['Reward'], indict['Done'], indict['Action'], indict['Score']
 
