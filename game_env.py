@@ -42,7 +42,7 @@ class Dominion:
                 self.conn.settimeout(1)
                 instring = self.conn.recv(2048).decode()
             except socket.timeout:
-                self.conn.send('{"Resend": true}\n'.encode())
+                return [], 0, True, 0, 'Game Failure'
         indict = json.loads(instring)
         return indict['GainChoice'], indict['Reward'], indict['Done'], indict['Action'], indict['Score']
 
