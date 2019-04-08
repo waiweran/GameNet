@@ -2,6 +2,8 @@ import subprocess
 import socket
 import json
 
+socket.setdefaulttimeout(1.)
+
 class Dominion:
 
     def __init__(self, opponent='Big Money'):
@@ -32,7 +34,6 @@ class Dominion:
 
         # Return first move
         try:
-            self.conn.settimeout(1)
             return json.loads(self.conn.recv(2048).decode())['GainChoice']
         except socket.timeout:
             return self.reset()
@@ -43,7 +44,6 @@ class Dominion:
         instring = ""
         while not instring.startswith('{'):
             try:
-                self.conn.settimeout(1)
                 instring = self.conn.recv(2048).decode()
             except socket.timeout:
                 return [], 0, True, 0, 'Game Failure'
