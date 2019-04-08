@@ -31,7 +31,11 @@ class Dominion:
         self.conn, _ = self.soc.accept()
 
         # Return first move
-        return json.loads(self.conn.recv(2048).decode())['GainChoice']
+        try:
+            self.conn.settimeout(1)
+            return json.loads(self.conn.recv(2048).decode())['GainChoice']
+        except socket.timeout:
+            return self.reset()
 
 
     def step(self, move):
