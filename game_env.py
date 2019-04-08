@@ -12,7 +12,7 @@ class Dominion:
         self.conn = None
 
         # Create a socket 
-        self.soc = socket.socket()      
+        self.soc = socket.socket()
         port = 12345                
         self.soc.bind(('', port))       
         self.soc.listen(5)
@@ -42,10 +42,14 @@ class Dominion:
     def step(self, move):
         self.conn.send((json.dumps(move.tolist()) + '\n').encode())
         instring = ""
+        count = 0
         while not instring.startswith('{'):
             try:
                 instring = self.conn.recv(2048).decode()
             except socket.timeout:
+                return [], 0, True, 0, 'Game Failure'
+            count += 1
+            if count > 100:
                 return [], 0, True, 0, 'Game Failure'
         indict = json.loads(instring)
         return indict['GainChoice'], indict['Reward'], indict['Done'], indict['Action'], indict['Score']
