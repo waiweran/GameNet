@@ -50,17 +50,17 @@ test_files = datafiles[int(len(datafiles)*test_fraction):]
 play_train_data,play_train_target,gain_train_data,gain_train_target = readFiles(train_files, data_path, max_size=500000)
 play_test_data,play_test_target,gain_test_data,gain_test_target = readFiles(test_files, data_path, max_size=1000)
 
-# Scale Inputs
-print("Scaling Inputs")
-play_train_data = play_train_data / scale_factor
-play_test_data = play_test_data / scale_factor
-gain_train_data = gain_train_data / scale_factor
-gain_test_data = gain_test_data / scale_factor
-
 # Create Net
 print("Creating Net")
 agent = GainDQN()
 env = Dominion()
+
+# Scale Inputs
+print("Scaling Inputs")
+play_train_data = play_train_data * agent.scale_factor
+play_test_data = play_test_data * agent.scale_factor
+gain_train_data = gain_train_data * agent.scale_factor
+gain_test_data = gain_test_data * agent.scale_factor
 
 # Train
 print("Training")
