@@ -57,10 +57,10 @@ env = Dominion()
 
 # Scale Inputs
 print("Scaling Inputs")
-play_train_data = play_train_data * agent.scale_factor
-play_test_data = play_test_data * agent.scale_factor
-gain_train_data = gain_train_data * agent.scale_factor
-gain_test_data = gain_test_data * agent.scale_factor
+play_train_data = play_train_data * agent.input_scale
+play_test_data = play_test_data * agent.input_scale
+gain_train_data = gain_train_data * agent.input_scale
+gain_test_data = gain_test_data * agent.input_scale
 
 # Train
 print("Training")
