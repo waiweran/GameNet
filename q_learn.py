@@ -15,7 +15,7 @@ EPISODES = 1000
 
 class GainDQN:
 
-    def __init__(self):
+    def __init__(self, file=None):
         self.input_size = 87
         self.output_size = 18
         self.input_scale = 0.01
@@ -25,7 +25,15 @@ class GainDQN:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.9995
         self.learning_rate = 0.001
-        self.model = self._build_model()
+        if file:
+            self.model = self._load_model(name)
+        else:
+            self.model = self._build_model()
+
+    def _load_model(self, name):
+        model = keras.models.load_model('checkpoints/gain.h5')
+        model._make_predict_function()
+        return model
 
     def _build_model(self):
         # Neural Net for Deep-Q learning Model
@@ -59,11 +67,15 @@ class GainDQN:
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
-    def load(self, name):
+    def load_weights(self, name):
         self.model.load_weights(name)
 
-    def save(self, name):
+    def save_weights(self, name):
         self.model.save_weights(name)
+
+    def save(self, name):
+        self.model.save(name)
+
 
 
 if __name__ == "__main__":
