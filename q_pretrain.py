@@ -4,6 +4,10 @@ from __future__ import absolute_import, division, print_function
 import tensorflow as tf
 from tensorflow import keras
 
+# Neural net
+from q_learn import GainDQN
+from game_env import Dominion
+
 # Helper libraries
 import numpy as np
 import json
@@ -11,7 +15,6 @@ import os
 
 # Configuration Values
 test_fraction = 9/10
-scale_factor = 100
 epochs = 10
 data_path = "Training"
 
@@ -56,17 +59,14 @@ gain_test_data = gain_test_data / scale_factor
 
 # Create Net
 print("Creating Net")
-model = keras.Sequential([
-    keras.layers.Dense(50, activation=tf.nn.relu, input_shape=(87,)),
-    keras.layers.Dense(18, activation=tf.nn.softmax)
-])
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+agent = GainDQN()
+env = Dominion()
 
-# Train and Test
+# Train
 print("Training")
-checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain.h5", save_weights_only=False, period=5)
-model.fit(gain_train_data, gain_train_target, epochs=epochs,
+checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain_weights.h5", save_weights_only=True, period=5)
+agent.model.fit(gain_train_data, gain_train_target, epochs=epochs,
 	      validation_data=(gain_test_data, gain_test_target), callbacks=[checkpoint])
 
-print(model.input_shape)
+agent.save("checkpoints/gain_dqn_pretrain.h5")
 model.summary()
