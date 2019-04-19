@@ -60,10 +60,12 @@ class GainDQN:
         for state, action, reward, next_state, done in minibatch:
             target = reward
             if not done:
-                target = (reward + self.gamma * np.amax(self.model.predict(next_state)[0]))
-            target_f = self.model.predict(state)
+                scaled_next_state = next_state * self.input_scale
+                target = (reward + self.gamma * np.amax(self.model.predict(scaled_next_state)[0]))
+            scaled_state = state * self.input_scale
+            target_f = self.model.predict(scaled_state)
             target_f[0][action] = target
-            self.model.fit(state, target_f, epochs=1, verbose=0)
+            self.model.fit(scaled_state, target_f, epochs=1, verbose=0)
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
