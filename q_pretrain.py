@@ -64,6 +64,9 @@ gain_test_data = gain_test_data * agent.input_scale
 gain_train_target_arr = np.zeros(shape=(len(gain_train_target), 18))
 for i in range(0, len(gain_train_target)):
 	gain_train_target_arr[i][gain_train_target[i]] = 1
+gain_test_target_arr = np.zeros(shape=(len(gain_test_target), 18))
+for i in range(0, len(gain_test_target)):
+	gain_test_target_arr[i][gain_test_target[i]] = 1
 
 print(np.shape(gain_train_data))
 print(np.shape(gain_train_target_arr))
@@ -71,8 +74,8 @@ print(np.shape(gain_train_target_arr))
 # Train
 print("Training")
 checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain_weights.h5", save_weights_only=True, period=5)
-agent.model.fit(gain_train_data, gain_train_target, epochs=epochs,
-	      validation_data=(gain_test_data, gain_test_target), callbacks=[checkpoint])
+agent.model.fit(gain_train_data, gain_train_target_arr, epochs=epochs,
+	      validation_data=(gain_test_data, gain_test_target_arr), callbacks=[checkpoint])
 
 agent.save("checkpoints/gain_dqn_pretrain.h5")
 model.summary()
