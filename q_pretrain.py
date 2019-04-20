@@ -62,10 +62,10 @@ play_test_data = play_test_data * agent.input_scale
 gain_train_data = gain_train_data * agent.input_scale
 gain_test_data = gain_test_data * agent.input_scale
 gain_train_target_arr = np.zeros(shape=(len(gain_train_target), 18))
-for i in range(0, len(gain_train_target)):
+for i in range(len(gain_train_target)):
 	gain_train_target_arr[i][gain_train_target[i]] = 1
 gain_test_target_arr = np.zeros(shape=(len(gain_test_target), 18))
-for i in range(0, len(gain_test_target)):
+for i in range(len(gain_test_target)):
 	gain_test_target_arr[i][gain_test_target[i]] = 1
 
 print(np.shape(gain_train_data))
@@ -79,3 +79,11 @@ agent.model.fit(gain_train_data, gain_train_target_arr, epochs=epochs,
 
 agent.save("checkpoints/gain_dqn_pretrain.h5")
 agent.model.summary()
+
+done = False
+state = env.reset(100)
+while not done:
+    prediction = agent.predict(state)
+    next_state, reward, done, action, score = env.step(prediction[0,:])
+    state = np.expand_dims(next_state, 0)
+env.close()
