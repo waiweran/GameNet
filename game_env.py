@@ -18,8 +18,7 @@ class Dominion:
         self.soc.listen(5)
 
 
-    def reset(self, num_games=1):
-        self.num_games = num_games
+    def reset(self):
 
         # Get rid of existing simulator
         if self.sim and not self.sim.poll():
@@ -28,7 +27,7 @@ class Dominion:
             self.conn.close()
 
         # Start simulator
-        self.sim = subprocess.Popen(['java', '-jar', 'Simulator.jar', str(num_games), 'Socket', self.opponent], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        self.sim = subprocess.Popen(['java', '-jar', 'Simulator.jar', '1', 'Socket', self.opponent], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
         # Connect to game
         self.conn, _ = self.soc.accept()

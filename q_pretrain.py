@@ -80,10 +80,13 @@ agent.model.fit(gain_train_data, gain_train_target_arr, epochs=epochs,
 agent.save("checkpoints/gain_dqn_pretrain.h5")
 agent.model.summary()
 
-done = False
-state = env.reset(100)
-while not done:
-    prediction = agent.predict(state)
-    next_state, reward, done, action, score = env.step(prediction[0,:])
-    state = np.expand_dims(next_state, 0)
+for i in range(100)
+	state = env.reset()
+    while True:
+        prediction = agent.predict(state)
+        next_state, reward, done, action, score = env.step(prediction[0,:])
+        state = np.expand_dims(next_state, 0)
+        if done:
+            print("Game {}: score: {}".format(i, score))
+            break
 env.close()
