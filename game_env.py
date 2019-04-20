@@ -2,7 +2,7 @@ import subprocess
 import socket
 import json
 
-socket.setdefaulttimeout(5.)
+socket.setdefaulttimeout(1.)
 
 class Dominion:
 
@@ -41,10 +41,10 @@ class Dominion:
 
     def step(self, move):
         if move == 'random':
-            move = '[' + move + ']'
+            move = [move]
         else:
-            move = str(move.tolist())
-        self.conn.send((json.dumps(move + '\n')).encode())
+            move = move.tolist()
+        self.conn.send((json.dumps(move) + '\n').encode())
         instring = ""
         count = 0
         while not instring.startswith('{'):
