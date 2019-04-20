@@ -20,30 +20,30 @@ data_path = "Training"
 
 # Reads and combines a set of data files
 def readFiles(files, directory, max_size=0):
-	playData = list()
-	playTarget = list()
-	gainData = list()
-	gainTarget = list()
+    playData = list()
+    playTarget = list()
+    gainData = list()
+    gainTarget = list()
 
-	for file in files:
-		with open(os.path.join(directory, file)) as datafile:
-			data = json.loads(datafile.read())
-			playData.extend(data['playData'])
-			playTarget.extend(data['playTarget'])
-			gainData.extend(data['gainData'])
-			gainTarget.extend(data['gainTarget'])
-		if max_size > 0 and len(gainTarget) > max_size:
-			break
+    for file in files:
+        with open(os.path.join(directory, file)) as datafile:
+            data = json.loads(datafile.read())
+            playData.extend(data['playData'])
+            playTarget.extend(data['playTarget'])
+            gainData.extend(data['gainData'])
+            gainTarget.extend(data['gainTarget'])
+        if max_size > 0 and len(gainTarget) > max_size:
+            break
 
-	return np.array(playData), np.array(playTarget), np.array(gainData), np.array(gainTarget)
+    return np.array(playData), np.array(playTarget), np.array(gainData), np.array(gainTarget)
 
 # Read Data Files
 print("Listing Files")
 files = os.listdir(data_path)
 datafiles = list()
 for file in files:
-	if file.endswith(".json"):
-		datafiles.append(file)
+    if file.endswith(".json"):
+        datafiles.append(file)
 print("Loading Files")
 train_files = datafiles[0:int(len(datafiles)*test_fraction)]
 test_files = datafiles[int(len(datafiles)*test_fraction):]
@@ -63,10 +63,10 @@ gain_train_data = gain_train_data * agent.input_scale
 gain_test_data = gain_test_data * agent.input_scale
 gain_train_target_arr = np.zeros(shape=(len(gain_train_target), 18))
 for i in range(len(gain_train_target)):
-	gain_train_target_arr[i][gain_train_target[i]] = 1
+    gain_train_target_arr[i][gain_train_target[i]] = 1
 gain_test_target_arr = np.zeros(shape=(len(gain_test_target), 18))
 for i in range(len(gain_test_target)):
-	gain_test_target_arr[i][gain_test_target[i]] = 1
+    gain_test_target_arr[i][gain_test_target[i]] = 1
 
 print(np.shape(gain_train_data))
 print(np.shape(gain_train_target_arr))
@@ -75,13 +75,13 @@ print(np.shape(gain_train_target_arr))
 print("Training")
 checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain_weights.h5", save_weights_only=True, period=5)
 agent.model.fit(gain_train_data, gain_train_target_arr, epochs=epochs,
-	      validation_data=(gain_test_data, gain_test_target_arr), callbacks=[checkpoint])
+          validation_data=(gain_test_data, gain_test_target_arr), callbacks=[checkpoint])
 
 agent.save("checkpoints/gain_dqn_pretrain.h5")
 agent.model.summary()
 
 for i in range(100):
-	state = env.reset()
+    state = env.reset()
     while True:
         prediction = agent.predict(state)
         next_state, reward, done, action, score = env.step(prediction[0,:])
