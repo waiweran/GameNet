@@ -47,8 +47,8 @@ for file in files:
 print("Loading Files")
 train_files = datafiles[0:int(len(datafiles)*test_fraction)]
 test_files = datafiles[int(len(datafiles)*test_fraction):]
-play_train_data,play_train_target,gain_train_data,gain_train_target = readFiles(train_files, data_path, max_size=500000)
-play_test_data,play_test_target,gain_test_data,gain_test_target = readFiles(test_files, data_path, max_size=1000)
+play_train_data,play_train_target,gain_train_data,gain_train_target = readFiles(train_files, data_path, max_size=5000)
+play_test_data,play_test_target,gain_test_data,gain_test_target = readFiles(test_files, data_path, max_size=100)
 
 # Create Net
 print("Creating Net")
@@ -61,6 +61,9 @@ play_train_data = play_train_data * agent.input_scale
 play_test_data = play_test_data * agent.input_scale
 gain_train_data = gain_train_data * agent.input_scale
 gain_test_data = gain_test_data * agent.input_scale
+
+print(shape(gain_train_data))
+print(shape(gain_train_target))
 
 # Train
 print("Training")
