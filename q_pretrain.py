@@ -61,9 +61,12 @@ play_train_data = play_train_data * agent.input_scale
 play_test_data = play_test_data * agent.input_scale
 gain_train_data = gain_train_data * agent.input_scale
 gain_test_data = gain_test_data * agent.input_scale
+gain_train_target_arr = np.zeros(shape=(len(gain_train_target), 18))
+for i in range(0, len(gain_train_target)):
+	gain_train_target_arr[i][gain_train_target[i]] = 1
 
 print(np.shape(gain_train_data))
-print(np.shape(gain_train_target))
+print(np.shape(gain_train_target_arr))
 
 # Train
 print("Training")
