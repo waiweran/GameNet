@@ -11,7 +11,7 @@ import numpy as np
 import random
 import os
 
-EPISODES = 1000
+EPISODES = 10000
 
 class GainDQN:
 
