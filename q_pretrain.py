@@ -78,4 +78,4 @@ agent.model.fit(gain_train_data, gain_train_target_arr, epochs=epochs,
 	      validation_data=(gain_test_data, gain_test_target_arr), callbacks=[checkpoint])
 
 agent.save("checkpoints/gain_dqn_pretrain.h5")
-model.summary()
+agent.model.summary()
