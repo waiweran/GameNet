@@ -39,8 +39,8 @@ class GainDQN:
         # Neural Net for Deep-Q learning Model
         model = keras.Sequential()
         model.add(keras.layers.Dense(50, input_dim=self.input_size, activation=tf.nn.relu))
-        model.add(keras.layers.Dense(20, activation=tf.nn.relu))
-        model.add(keras.layers.Dense(20, activation=tf.nn.relu))
+        # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
+        # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
         model.add(keras.layers.Dense(self.output_size, activation=tf.nn.softmax))
         model.compile(loss='mse', optimizer=keras.optimizers.Adam(lr=self.learning_rate))
         return model
