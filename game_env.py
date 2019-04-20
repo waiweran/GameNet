@@ -44,7 +44,7 @@ class Dominion:
             move = [move]
         else:
             move = move.tolist()
-        self.conn.send((json.dumps(move + '\n').encode())
+        self.conn.send((json.dumps(move + '\n')).encode())
         instring = ""
         count = 0
         while not instring.startswith('{'):

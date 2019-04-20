@@ -92,8 +92,10 @@ if __name__ == "__main__":
         state = np.expand_dims(state, 0)
         while True:
             prediction = agent.predict(state)
-            if prediction == 'random' env.step('random')
-            next_state, reward, done, action, score = env.step(prediction[0,:])
+            if prediction == 'random':
+                next_state, reward, done, action, score = env.step(prediction)
+            else:
+                next_state, reward, done, action, score = env.step(prediction[0,:])
             next_state = np.expand_dims(next_state, 0)
             agent.remember(state, action, reward, next_state, done)
             state = next_state
