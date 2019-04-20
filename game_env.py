@@ -40,7 +40,11 @@ class Dominion:
 
 
     def step(self, move):
-        self.conn.send((json.dumps(move.tolist()) + '\n').encode())
+        if move == 'random':
+            move = [move]
+        else:
+            move = move.tolist()
+        self.conn.send((json.dumps(move + '\n').encode())
         instring = ""
         count = 0
         while not instring.startswith('{'):
