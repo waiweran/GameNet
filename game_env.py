@@ -2,7 +2,7 @@ import subprocess
 import socket
 import json
 
-socket.setdefaulttimeout(1.)
+socket.setdefaulttimeout(5.)
 
 class Dominion:
 
