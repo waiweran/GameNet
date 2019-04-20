@@ -41,7 +41,7 @@ class Dominion:
 
     def step(self, move):
         if move == 'random':
-            move = [move]
+            move = '[' + move + ']'
         else:
             move = str(move.tolist())
         self.conn.send((json.dumps(move + '\n')).encode())
