@@ -43,7 +43,7 @@ class Dominion:
         if move == 'random':
             move = [move]
         else:
-            move = move.tolist()
+            move = str(move.tolist())
         self.conn.send((json.dumps(move + '\n')).encode())
         instring = ""
         count = 0
