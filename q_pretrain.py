@@ -80,7 +80,7 @@ agent.model.fit(gain_train_data, gain_train_target_arr, epochs=epochs,
 agent.save("checkpoints/gain_dqn_pretrain.h5")
 agent.model.summary()
 
-for i in range(100)
+for i in range(100):
 	state = env.reset()
     while True:
         prediction = agent.predict(state)
