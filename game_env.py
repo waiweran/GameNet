@@ -2,7 +2,7 @@ import subprocess
 import socket
 import json
 
-socket.setdefaulttimeout(1.)
+socket.setdefaulttimeout(5.)
 
 class Dominion:
 
@@ -29,21 +29,19 @@ class Dominion:
         # Start simulator
         self.sim = subprocess.Popen(['java', '-jar', 'Simulator.jar', '1', 'Socket', self.opponent], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
-        # Connect to game
-        self.conn, _ = self.soc.accept()
-
-        # Return first move
+        # Connect and return first move
         try:
+            self.conn, _ = self.soc.accept()
             return json.loads(self.conn.recv(2048).decode())['GainChoice']
         except socket.timeout:
             return self.reset()
 
 
     def step(self, move):
-        if move == 'random':
-            move = [move]
-        else:
+        try:
             move = move.tolist()
+        except AttributeError:
+            pass
         self.conn.send((json.dumps(move) + '\n').encode())
         instring = ""
         count = 0

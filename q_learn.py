@@ -50,10 +50,10 @@ class GainDQN:
 
     def predict(self, state):
         if np.random.rand() <= self.epsilon:
-            return "random"
+            return ["random"]
         scaled_state = state * self.input_scale
         output = self.model.predict(scaled_state)
-        return output # return weighted actions
+        return output[0,:] # return weighted actions
 
     def replay(self, batch_size):
         minibatch = random.sample(self.memory, batch_size)
@@ -92,10 +92,7 @@ if __name__ == "__main__":
         state = np.expand_dims(state, 0)
         while True:
             prediction = agent.predict(state)
-            if prediction == 'random':
-                next_state, reward, done, action, score = env.step(prediction)
-            else:
-                next_state, reward, done, action, score = env.step(prediction[0,:])
+            next_state, reward, done, action, score = env.step(prediction)
             next_state = np.expand_dims(next_state, 0)
             agent.remember(state, action, reward, next_state, done)
             state = next_state
