@@ -6,12 +6,25 @@ global model
 app = Flask(__name__)
 model = gain.GainModel()
 
+models = dict()
+
 @app.route('/predict/')
 def predict():
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
             output = model.run_game(instring)
+            return jsonify(output)
+    return jsonify(['Incorrect Input'])
+
+@app.route('/predict/<netname>/')
+def predict_specific(netname):
+	if netname not in models:
+		models[netname] = gain.GainModel(netname)
+    if 'datain' in request.args:
+        instring = request.args['datain']
+        if instring.startswith('{'):
+            output = models[netname].run_game(instring)
             return jsonify(output)
     return jsonify(['Incorrect Input'])
 

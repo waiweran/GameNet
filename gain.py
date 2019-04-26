@@ -11,8 +11,8 @@ import json
 
 class GainModel:
 
-	def __init__(self):
-		self.model = keras.models.load_model('checkpoints/gain.h5')
+	def __init__(self, netname="gain"):
+		self.model = keras.models.load_model('checkpoints/' + netname + '.h5')
 		self.model._make_predict_function()
 
 
