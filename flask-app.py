@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, request, jsonify
 import gain
 
 global model
@@ -6,18 +6,14 @@ global model
 app = Flask(__name__)
 model = gain.GainModel()
 
-@app.route('/')
-def main_page():
-    return render_template('index.html')
-
-@app.route('/predict/', methods=['GET', 'POST'])
-def predict_page():
+@app.route('/predict/')
+def predict():
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
             output = model.run_game(instring)
-            return render_template('predict.html', output=output)
-    return render_template('predict.html', output="Incorrect Input")
+            return jsonify(output)
+    return jsonify(['Incorrect Input'])
 
 
 if __name__ == "__main__":
