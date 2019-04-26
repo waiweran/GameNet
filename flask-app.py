@@ -20,7 +20,7 @@ def predict():
 @app.route('/predict/<netname>/')
 def predict_specific(netname):
     if netname not in models:
-        models[netname] = gain.GainModel(netname)
+        models[netname] = gain.GainModel(netname=netname)
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
