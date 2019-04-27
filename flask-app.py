@@ -27,8 +27,8 @@ def predict_dqn():
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
-        	indict = json.loads(instring)
-			netin = np.expand_dims(indict['GainChoice'], 0)
+            indict = json.loads(instring)
+            netin = np.expand_dims(indict['GainChoice'], 0)
             output = agent.predict(netin)
             return jsonify(output.tolist())
     return jsonify(['Incorrect Input'])
