@@ -1,10 +1,15 @@
 from flask import Flask, request, jsonify
-import gain
+import gain, q_learn
+import json
 
 global model
+global agent
+global models
 
 app = Flask(__name__)
 model = gain.GainModel()
+agent = q_learn.GainDQN(file='checkpoints/gain-dqn.h5')
+agent.epsilon = 0.0
 
 models = dict()
 
@@ -17,10 +22,21 @@ def predict():
             return jsonify(output)
     return jsonify(['Incorrect Input'])
 
+@app.route('/predict/dqn/')
+def predict_dqn():
+    if 'datain' in request.args:
+        instring = request.args['datain']
+        if instring.startswith('{'):
+        	indict = json.loads(instring)
+			netin = np.expand_dims(indict['GainChoice'], 0)
+            output = agent.predict(netin)
+            return jsonify(output.tolist())
+    return jsonify(['Incorrect Input'])
+
 @app.route('/predict/<netname>/')
 def predict_specific(netname):
     if netname not in models:
-        models[netname] = gain.GainModel(netname=netname)
+    	models[netname] = gain.GainModel(netname)
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
