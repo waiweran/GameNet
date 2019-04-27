@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
-import gain, q_learn
+import numpy as np
 import json
+
+import gain, q_learn
 
 global model
 global agent
