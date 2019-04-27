@@ -85,7 +85,7 @@ if __name__ == "__main__":
     env = Dominion()
     
     done = False
-    batch_size = 500
+    batch_size = 200
 
     for e in range(EPISODES):
         state = env.reset()
@@ -101,6 +101,8 @@ if __name__ == "__main__":
                 if len(agent.memory) > batch_size:
                     agent.replay(batch_size)
                 break
+        if e % 100 == 0:
+            agent.save("checkpoints/gain-dqn-" + e + ".h5")
 
     agent.save("checkpoints/gain-dqn.h5")
     env.close()
