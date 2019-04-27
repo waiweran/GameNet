@@ -11,7 +11,7 @@ import numpy as np
 import random
 import os
 
-EPISODES = 10000
+EPISODES = 20000
 
 class GainDQN:
 
@@ -19,7 +19,7 @@ class GainDQN:
         self.input_size = 87
         self.output_size = 18
         self.input_scale = 0.01
-        self.memory = deque(maxlen=2000)
+        self.memory = deque(maxlen=10000)
         self.gamma = 0.95    # discount rate
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     env = Dominion()
     
     done = False
-    batch_size = 32
+    batch_size = 500
 
     for e in range(EPISODES):
         state = env.reset()
