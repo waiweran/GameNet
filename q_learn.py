@@ -26,12 +26,12 @@ class GainDQN:
         self.epsilon_decay = 0.9995
         self.learning_rate = 0.001
         if file:
-            self.model = self._load_model(name)
+            self.model = self._load_model(file)
         else:
             self.model = self._build_model()
 
-    def _load_model(self, name):
-        model = keras.models.load_model('checkpoints/gain.h5')
+    def _load_model(self, file):
+        model = keras.models.load_model(file)
         model._make_predict_function()
         return model
 
