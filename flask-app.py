@@ -35,14 +35,15 @@ def predict_dqn():
             return jsonify(output.tolist())
     return jsonify(['Incorrect Input'])
 
-@app.route('/predict/<netname>/')
+@app.route('/predict/dqn/<netname>/')
 def predict_specific(netname):
-    if netname not in models:
-    	models[netname] = gain.GainModel(netname)
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
-            output = models[netname].run_game(instring)
+            indict = json.loads(instring)
+            netin = np.expand_dims(indict['GainChoice'], 0)
+            new_agent = q_learn.GainDQN(file=('checkpoints/{}.h5'.format(netname)))
+            output = new_agent.predict(netin)
             return jsonify(output)
     return jsonify(['Incorrect Input'])
 
