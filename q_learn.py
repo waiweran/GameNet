@@ -101,8 +101,8 @@ if __name__ == "__main__":
                 if len(agent.memory) > batch_size:
                     agent.replay(batch_size)
                 break
-        if e % 100 == 0:
-            agent.save("checkpoints/gain-dqn-" + e + ".h5")
+        if e > 0 and e % 100 == 0:
+            agent.save("checkpoints/gain-dqn-{}.h5".format(e))
 
     agent.save("checkpoints/gain-dqn.h5")
     env.close()
