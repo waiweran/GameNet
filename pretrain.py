@@ -58,7 +58,7 @@ gain_test_data = gain_test_data / scale_factor
 # Create Net
 print("Creating Net")
 agent = GainDQN(epsilon=0)
-agent.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+agent.model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train and Test
 print("Training")

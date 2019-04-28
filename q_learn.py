@@ -28,6 +28,8 @@ class GainDQN:
             self.model = self._load_model(file)
         else:
             self.model = self._build_model()
+        self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
 
     def _load_model(self, file):
         model = keras.models.load_model(file)
@@ -41,8 +43,6 @@ class GainDQN:
         # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
         # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
         model.add(keras.layers.Dense(self.output_size, activation=tf.nn.softmax))
-        # model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return model
 
     def remember(self, state, action, reward, next_state, done):
