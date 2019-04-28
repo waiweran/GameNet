@@ -13,7 +13,7 @@ model = gain.GainModel()
 agent = q_learn.GainDQN(file='checkpoints/gain-dqn.h5')
 agent.epsilon = 0.0
 
-models = dict()
+agents = dict()
 
 @app.route('/predict/')
 def predict():
