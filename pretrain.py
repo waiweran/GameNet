@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 # TensorFlow and tf.keras
 import tensorflow as tf
 from tensorflow import keras
+from q_learn import GainDQN
 
 # Helper libraries
 import numpy as np
