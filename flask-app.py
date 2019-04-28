@@ -6,11 +6,13 @@ import gain, q_learn
 
 global model
 global agent
-global models
+global agent_pre
+global agents
 
 app = Flask(__name__)
 model = gain.GainModel()
-agent = q_learn.GainDQN(file='checkpoints/gain-pretrain.h5')
+agent = q_learn.GainDQN(file='checkpoints/gain-dqn.h5', epsilon=0.0)
+agent_pre = q_learn.GainDQN(file='checkpoints/gain-pretrain.h5', epsilon=0.0)
 agent.epsilon = 0.0
 
 agents = dict()
@@ -32,6 +34,17 @@ def predict_dqn():
             indict = json.loads(instring)
             netin = np.expand_dims(indict['GainChoice'], 0)
             output = agent.predict(netin)
+            return jsonify(output.tolist())
+    return jsonify(['Incorrect Input'])
+
+@app.route('/predict/pretrain/')
+def predict_dqn():
+    if 'datain' in request.args:
+        instring = request.args['datain']
+        if instring.startswith('{'):
+            indict = json.loads(instring)
+            netin = np.expand_dims(indict['GainChoice'], 0)
+            output = agent_pre.predict(netin)
             return jsonify(output.tolist())
     return jsonify(['Incorrect Input'])
 
