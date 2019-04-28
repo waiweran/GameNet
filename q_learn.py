@@ -15,7 +15,7 @@ EPISODES = 20000
 
 class GainDQN:
 
-    def __init__(self, file=None, epsilon=1):
+    def __init__(self, file=None, epsilon=1.0):
         self.input_size = 87
         self.output_size = 18
         self.input_scale = 0.01
