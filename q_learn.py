@@ -82,7 +82,7 @@ class GainDQN:
 
 
 if __name__ == "__main__":
-    agent = GainDQN(file='checkpoints/gain-pretrain.h5')
+    agent = GainDQN(file='checkpoints/gain-pretrain.h5', epsilon=0.01)
     env = Dominion()
     
     done = False
