@@ -38,7 +38,7 @@ def predict_dqn():
     return jsonify(['Incorrect Input'])
 
 @app.route('/predict/pretrain/')
-def predict_dqn():
+def predict_pretrain():
     if 'datain' in request.args:
         instring = request.args['datain']
         if instring.startswith('{'):
