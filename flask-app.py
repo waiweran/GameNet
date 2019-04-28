@@ -44,7 +44,7 @@ def predict_pretrain():
             indict = json.loads(instring)
             netin = np.expand_dims(indict['GainChoice'], 0)
             output = pre_agent.predict(netin)
-            return jsonify(output.tolist())
+            return jsonify(output)
     return jsonify(['Incorrect Input'])
 
 @app.route('/predict/dqn/<netname>/')
