@@ -10,7 +10,7 @@ global agents
 
 app = Flask(__name__)
 model = gain.GainModel()
-pre_agent = q_learn.GainDQN(file='checkpoints/gain-pretrain.h5', epsilon=0.9)
+pre_agent = q_learn.GainDQN(file='checkpoints/gain-pretrain.h5', epsilon=0.0)
 agent = q_learn.GainDQN(file='checkpoints/gain-dqn.h5', epsilon=0.0)
 
 agents = dict()
