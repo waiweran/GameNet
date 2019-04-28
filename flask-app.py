@@ -6,6 +6,7 @@ import gain, q_learn
 
 global model
 global agent
+global pre_agent
 global agents
 
 app = Flask(__name__)
