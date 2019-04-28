@@ -58,12 +58,13 @@ gain_test_data = gain_test_data / scale_factor
 # Create Net
 print("Creating Net")
 agent = GainDQN(epsilon=0)
+agent.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train and Test
 print("Training")
 checkpoint = tf.keras.callbacks.ModelCheckpoint("checkpoints/gain-pretrain.h5", save_weights_only=False, period=5)
 agent.model.fit(gain_train_data, gain_train_target, epochs=epochs,
-	      validation_data=(gain_test_data, gain_test_target), callbacks=[checkpoint])
+		  validation_data=(gain_test_data, gain_test_target), callbacks=[checkpoint])
 
 print(agent.model.input_shape)
 agent.model.summary()
