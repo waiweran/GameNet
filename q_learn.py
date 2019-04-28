@@ -42,7 +42,7 @@ class GainDQN:
         # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
         model.add(keras.layers.Dense(self.output_size, activation=tf.nn.softmax))
         # model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-        model.compile(loss='mse', optimizer='adam')
+        model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
         return model
 
     def remember(self, state, action, reward, next_state, done):
