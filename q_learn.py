@@ -24,7 +24,6 @@ class GainDQN:
         self.epsilon = epsilon  # exploration rate
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.9995
-        self.learning_rate = 0.001
         if file:
             self.model = self._load_model(file)
         else:
@@ -43,7 +42,7 @@ class GainDQN:
         # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
         model.add(keras.layers.Dense(self.output_size, activation=tf.nn.softmax))
         # model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-        model.compile(loss='mse', optimizer=keras.optimizers.Adam(lr=self.learning_rate))
+        model.compile(loss='mse', optimizer='adam')
         return model
 
     def remember(self, state, action, reward, next_state, done):
