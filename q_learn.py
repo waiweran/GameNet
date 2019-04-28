@@ -28,8 +28,6 @@ class GainDQN:
             self.model = self._load_model(file)
         else:
             self.model = self._build_model()
-        self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
 
     def _load_model(self, file):
         model = keras.models.load_model(file)
@@ -44,6 +42,12 @@ class GainDQN:
         # model.add(keras.layers.Dense(20, activation=tf.nn.relu))
         model.add(keras.layers.Dense(self.output_size, activation=tf.nn.softmax))
         return model
+
+    def compile(self):
+        self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    def compile_sparse(self):
+        agent.model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
@@ -82,6 +86,7 @@ class GainDQN:
 
 if __name__ == "__main__":
     agent = GainDQN(file='checkpoints/gain-pretrain.h5', epsilon=0.01)
+    agent.compile()
     env = Dominion()
     
     done = False
