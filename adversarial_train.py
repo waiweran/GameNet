@@ -14,7 +14,7 @@ class GainNet:
         self.input_size = 87
         self.output_size = 18
         self.input_scale = 0.01
-        self.test_fraction = 0.002
+        self.test_fraction = 0.998
         self.epochs = 5
         self.raw_name = "checkpoints/adversarial_raw.h5"
         self.good_name = "checkpoints/adversarial_good.h5"
@@ -82,22 +82,23 @@ def readFiles(files, directory, max_size=0):
 
     return np.array(playData), np.array(playTarget), np.array(gainData), np.array(gainTarget)
 
-# Read Data Files
-print("Listing Files")
-files = os.listdir(data_path)
-datafiles = list()
-for file in files:
-    if file.endswith(".json"):
-        datafiles.append(file)
-print("Loading Files")
-_,_,gain_data,gain_target = readFiles(datafiles, data_path, max_size=501000)
 
-# Create Net
-print("Creating Net")
-agent = GainNet()
+if __name__ == "__main__":
 
-# Train and Test
-print("Training")
-agent.train(gain_data, gain_target)
+    # Read Data Files
+    print("Listing Files")
+    files = os.listdir(data_path)
+    datafiles = list()
+    for file in files:
+        if file.endswith(".json"):
+            datafiles.append(file)
+    print("Loading Files")
+    _,_,gain_data,gain_target = readFiles(datafiles, data_path, max_size=501000)
 
+    # Create Net
+    print("Creating Net")
+    agent = GainNet()
 
+    # Train and Test
+    print("Training")
+    agent.train(gain_data, gain_target)
