@@ -50,15 +50,25 @@ class GainNet:
             self.model.save(self.good_name)
 
     def test(self):
-        basic_test = subprocess.run(['java', '-jar', 'Simulator.jar', '1000', 'WebRaw', 'BigMoney'])
-        basic_comp = subprocess.run(['java', '-jar', 'Simulator.jar', '1000', 'WebGood', 'BigMoney'])
-        net_test = subprocess.run(['java', '-jar', 'Simulator.jar', '1000', 'WebRaw', 'WebGood'])
-        basic_result = basic_test.stdout.decode().splitlines()[-1]
-        comp_result = basic_comp.stdout.decode().splitlines()[-1]
-        net_result = net_test.stdout.decode().splitlines()[-1]
-        print(basic_result)
-        print(comp_result)
-        print(net_result)
+        total_runs = 10
+        basic_test = subprocess.check_output(['java', '-jar', 'Simulator.jar', str(total_runs), 'WebRaw', 'BigMoney'])
+        basic_comp = subprocess.check_output(['java', '-jar', 'Simulator.jar', str(total_runs), 'WebGood', 'BigMoney'])
+        net_test = subprocess.check_output(['java', '-jar', 'Simulator.jar', str(total_runs), 'WebRaw', 'WebGood'])
+        basic_result = basic_test.splitlines()[-1].decode()
+        comp_result = basic_comp.splitlines()[-1].decode()
+        net_result = net_test.splitlines()[-1].decode()
+        basic_val = int(basic_result[basic_result.index('win rate: ') + 10 : basic_result.index('/')])
+        comp_val = int(comp_result[comp_result.index('win rate: ') + 10 : comp_result.index('/')])
+        net_val = int(net_result[net_result.index('win rate: ') + 10 : net_result.index('/')])
+
+        print("Raw Test: " + str(basic_val) + " losses")
+        print("Good Comp: " + str(comp_val) + " losses")
+        print("Raw vs. Good: " + str(net_val) + " losses")
+
+        if (comp_val - basic_val + total_runs/2 - net_val) > 0:
+            print("Net Improvement: " + str(comp_val - basic_val + total_runs/2 - net_val))
+            return True
+        return False
 
 # Configuration Values
 data_path = "Training"
