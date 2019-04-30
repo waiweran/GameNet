@@ -50,7 +50,7 @@ class GainNet:
             self.model.save(self.good_name)
 
     def test(self):
-        runs = 20
+        runs = 100
         gain_good = GainNet(file=self.good_name)
         print("Raw vs. Big Money")
         basic_ps = Popen(['java', '-jar', 'Simulator.jar', '-q', str(runs), 'Stdio', 'BigMoney'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
