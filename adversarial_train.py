@@ -78,7 +78,6 @@ class GainNet:
     def _run_net(self, process, nets):
         while True:
             instring = process.stdout.readline().decode()
-            print(instring)
             if not instring.startswith('{'):
                 break
             indict = json.loads(instring)
