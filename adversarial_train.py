@@ -78,6 +78,7 @@ class GainNet:
     def _run_net(self, process, nets):
         while True:
             instring = process.stdout.readline().decode()
+            print(instring)
             if not instring.startswith('{'):
                 break
             indict = json.loads(instring)
@@ -128,7 +129,7 @@ if __name__ == "__main__":
         if file.endswith(".json"):
             datafiles.append(file)
     print("Loading Files")
-    _,_,gain_data,gain_target = readFiles(datafiles, data_path, max_size=501000)
+    _,_,gain_data,gain_target = readFiles(datafiles, data_path, max_size=50100)
 
     # Create Net
     print("Creating Net")
