@@ -50,27 +50,27 @@ class GainNet:
             self.model.save(self.good_name)
 
     def test(self):
-        runs = 1
+        runs = 20
+        gain_good = GainNet(file=self.good_name)
+        print("Raw vs. Big Money")
         basic_ps = Popen(['java', '-jar', 'Simulator.jar', '-q', str(runs), 'Stdio', 'BigMoney'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-        basic_test = self._run_net(basic_ps, (self,))
+        basic_result = self._run_net(basic_ps, (self,))
+        print("Good vs. Big Money")
         comp_ps = Popen(['java', '-jar', 'Simulator.jar', '-q', str(runs), 'Stdio', 'BigMoney'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-        comp_test = self._run_net(comp_ps, (self,))
+        comp_result = self._run_net(comp_ps, (gain_good,))
+        print("Raw vs. Good")
         net_ps = Popen(['java', '-jar', 'Simulator.jar', '-q', str(runs), 'Stdio', 'Stdio'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-        net_test = self._run_net(net_ps, (self, GainNet(file=self.good_name)))
-
-        basic_result = basic_test.splitlines()[0].decode()
-        comp_result = comp_test.splitlines()[0].decode()
-        net_result = net_test.splitlines()[0].decode()
+        net_result = self._run_net(net_ps, (self, gain_good))
         basic_val = int(basic_result[basic_result.index('win rate: ') + 10 : basic_result.index('/')])
         comp_val = int(comp_result[comp_result.index('win rate: ') + 10 : comp_result.index('/')])
         net_val = int(net_result[net_result.index('win rate: ') + 10 : net_result.index('/')])
-        metric = basic_val = comp_val + net_val - total_runs/2
+        metric = basic_val + comp_val + net_val - runs/2
 
         print("Raw Test: " + str(basic_val) + " wins")
         print("Good Comp: " + str(comp_val) + " wins")
         print("Raw vs. Good: " + str(net_val) + " wins")
         print("Net Change: {}".format(metric))
-        
+
         if metric > 0:
             return True
         return False
@@ -83,6 +83,7 @@ class GainNet:
             indict = json.loads(instring)
             game_end = indict['Done']
             if game_end:
+                print('Score: ' + indict['Score'])
                 continue
             net_index = indict['Player'] - 1
             net_data = np.expand_dims(indict['GainChoice'], 0)
@@ -91,7 +92,7 @@ class GainNet:
             process.stdin.write((json.dumps(move) + '\n').encode())
             process.stdin.flush()
         ending = process.communicate()[0].decode()
-        return instring + '\n' + ending
+        return instring + ending
 
 
 # Configuration Values
