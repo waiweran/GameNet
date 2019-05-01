@@ -20,6 +20,10 @@ good = adversarial_train.GainNet(file='checkpoints/adversarial_good.h5')
 
 agents = dict()
 
+@app.route('/')
+def index():
+    return 'Welcome'
+
 @app.route('/predict/')
 def predict():
     if 'datain' in request.args:
